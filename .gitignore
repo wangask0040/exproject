@@ -1,0 +1,7 @@
+extern/libevent-2.0.21-stable/poll.c
+extern/
+getway/Debug/
+getway/Release/getway.tlog/unsuccessfulbuild
+getway/Release/
+win32/getway.sdf
+win32/ipch/
