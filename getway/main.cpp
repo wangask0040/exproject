@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 	event_base* base = event_base_new();
 	sockaddr addr;
 	int len = sizeof(addr);
-	evutil_parse_sockaddr_port("192.168.1.101:5000", &addr, &len);
+	evutil_parse_sockaddr_port("127.0.0.1:5000", &addr, &len);
 	evconnlistener*  listener =
 		evconnlistener_new_bind(base, AcceptCB, nullptr, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
 	
