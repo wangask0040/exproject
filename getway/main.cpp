@@ -83,4 +83,5 @@ void EventCB(struct bufferevent *bev, short what, void *ctx)
 	bev;
 	ctx;
 	cout << __FUNCTION__ << '|' << __LINE__ << '|' << what << endl;
+	bufferevent_free(bev);
 }
