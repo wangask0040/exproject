@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project(server)
+set(ROOTDIR ${PROJECT_SOURCE_DIR})
+message(${ROOTDIR})
+add_subdirectory(${ROOTDIR}/getway)
+add_subdirectory(${ROOTDIR}/registersvr)
