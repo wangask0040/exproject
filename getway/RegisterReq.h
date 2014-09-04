@@ -1,7 +1,11 @@
 #pragma once
-#include <string>
+#ifdef WIN32
+#define ZMQ_HAVE_WINDOWS
+#endif
+
 #include "zmq.h"
-using namespace std;
+#include "zmq_utils.h"
+
 
 class CRegisterReq
 {
@@ -15,10 +19,12 @@ public:
 
 	CRegisterReq();
 	~CRegisterReq();
-	std::pair<int, string> Register(const REGISTER_REQ& req) const;
-
+	int Register(const REGISTER_REQ& req) const;
+	int RecvData() const;
+	static void ThreadFun(void* arg);
 private:
 	void* m_zmq_ctx;
 	void* m_zmq_req;
+	void* m_zmq_thread;
 };
 

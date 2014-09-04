@@ -63,7 +63,7 @@
       <AdditionalLibraryDirectories>..\exlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalManifestDependencies>
       </AdditionalManifestDependencies>
-      <AdditionalDependencies>ws2_32.lib;wsock32.lib;libevent.lib;libevent_core.lib;libevent_extras.lib;Advapi32.lib;libzmq.lib;libprotobuf.lib;libprotocol.lib</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;libevent_core.lib;libevent_extras.lib;Advapi32.lib;libzmq.lib;libprotobuf.lib;libprotocol.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

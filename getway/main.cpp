@@ -40,6 +40,11 @@ int main(int argc, char** argv)
 
 	evconnlistener_free(listener);
 	event_base_free(base);
+	
+#ifdef WIN32
+	WSACleanup();
+#endif
+
 	return 1;
 }
 
@@ -68,13 +73,13 @@ void ReadCB(struct bufferevent *bev, void *ctx)
 	st.account = tmp;
 	st.passwd = "123456";
 	
-	std::pair<int, string> retpair = req.Register(st);
+	int ret = req.Register(st);
+
 	evbuffer* p = bufferevent_get_output(bev);
 	stringstream ss;
 	ss << "account:" << st.account;
 	ss << "passwd:" << st.passwd;
-	ss << "ret:" << retpair.first;
-	ss << "retmsg:" << retpair.second << endl;
+	ss << "ret:" << ret << endl;
 
 	evbuffer_add(p, ss.str().c_str(), ss.str().length());
 }
