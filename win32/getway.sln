@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getway", "..\getway\getway.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extern", "..\extern\extern.vcxproj", "{C6043401-9049-4603-BAC5-6E4B2524857A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "registersvr", "..\registersvr\registersvr.vcxproj", "{3D4D9F5F-250C-47C6-93B4-0185F964F09E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{C6043401-9049-4603-BAC5-6E4B2524857A}.Debug|Win32.Build.0 = Debug|Win32
 		{C6043401-9049-4603-BAC5-6E4B2524857A}.Release|Win32.ActiveCfg = Release|Win32
 		{C6043401-9049-4603-BAC5-6E4B2524857A}.Release|Win32.Build.0 = Release|Win32
+		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Debug|Win32.Build.0 = Debug|Win32
+		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Release|Win32.ActiveCfg = Release|Win32
+		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

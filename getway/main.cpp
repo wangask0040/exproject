@@ -4,6 +4,7 @@
 #include <iostream>
 using namespace std;
 #include <signal.h>
+#include "RegisterReq.h"
 
 void AcceptCB(struct evconnlistener * p, evutil_socket_t fd, struct sockaddr * addr, int socklen, void * data);
 void ReadCB(struct bufferevent *bev, void *ctx);
@@ -63,9 +64,15 @@ void ReadCB(struct bufferevent *bev, void *ctx)
 		evbuffer_remove(evb, tmp, sizeof(tmp));
 		cout << __FUNCTION__ << '|' << __LINE__ << '|' << tmp << endl;
 
+		static CRegisterReq req;
+		CRegisterReq::REGISTER_REQ st;
+		st.account = tmp;
+		st.passwd = "123456";
+		std::pair<int, string> retpair = req.Register(st);
+
 		evbuffer* p = bufferevent_get_output(bev);
 		stringstream ss;
-		ss << "asdadxzc" << '|' << len << endl;
+		ss << "asdadxzc" << '|' << len << '|' << retpair.first << '|' << retpair.second << endl;
 		evbuffer_add(p, ss.str().c_str(), ss.str().length());
 	}
 }
