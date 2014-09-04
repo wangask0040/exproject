@@ -3,9 +3,9 @@
 #define ZMQ_HAVE_WINDOWS
 #endif
 
-#include "zmq.h"
-#include "zmq_utils.h"
-
+#include <zmq.h>
+#include <zmq_utils.h>
+#include <event.h>
 
 class CRegisterReq
 {
@@ -20,11 +20,10 @@ public:
 	CRegisterReq();
 	~CRegisterReq();
 	int Register(const REGISTER_REQ& req) const;
-	int RecvData() const;
+	int RecvData(evbuffer* output) const;
 	static void ThreadFun(void* arg);
 private:
 	void* m_zmq_ctx;
-	void* m_zmq_req;
-	void* m_zmq_thread;
+	void* m_zmq_socket_req;
 };
 

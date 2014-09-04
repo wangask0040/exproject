@@ -10,6 +10,7 @@ int main(int argc, char** argv)
 	void* ctx = zmq_ctx_new();
 	void* response = zmq_socket(ctx, ZMQ_REP);
 	int ret = zmq_bind(response, "tcp://127.0.0.1:5001");
+
 	while (true)
 	{
 		zmq_msg_t zmsg;

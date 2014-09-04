@@ -22,12 +22,15 @@ int main(int argc, char** argv)
 	WSAStartup(0x0201, &wsa_data);
 #endif
 
+
+	CRegisterReq rr;
+
 	event_base* base = event_base_new();
 	sockaddr addr;
 	int len = sizeof(addr);
 	evutil_parse_sockaddr_port("127.0.0.1:5000", &addr, &len);
 	evconnlistener*  listener =
-		evconnlistener_new_bind(base, AcceptCB, nullptr, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
+		evconnlistener_new_bind(base, AcceptCB, &rr, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
 
 	struct event *signal_event;
 	signal_event = evsignal_new(base, SIGINT, nullptr, (void *)base);
@@ -60,28 +63,22 @@ void AcceptCB(struct evconnlistener * p, evutil_socket_t fd, struct sockaddr * a
 
 void ReadCB(struct bufferevent *bev, void *ctx)
 {
-	cout << __FUNCTION__ << endl;
-	ctx;
-	evbuffer* evb = bufferevent_get_input(bev);
+	CRegisterReq* q = reinterpret_cast<CRegisterReq*>(ctx);
+
+	evbuffer* evinput = bufferevent_get_input(bev);
 
 	char tmp[1024] = { 0 };
-	bufferevent_read_buffer(bev, evb);
-	evbuffer_remove(evb, tmp, sizeof(tmp));
+	bufferevent_read_buffer(bev, evinput);
+	evbuffer_remove(evinput, tmp, sizeof(tmp));
 
-	static CRegisterReq req;
 	CRegisterReq::REGISTER_REQ st;
 	st.account = tmp;
 	st.passwd = "123456";
 	
-	int ret = req.Register(st);
-
-	evbuffer* p = bufferevent_get_output(bev);
-	stringstream ss;
-	ss << "account:" << st.account;
-	ss << "passwd:" << st.passwd;
-	ss << "ret:" << ret << endl;
-
-	evbuffer_add(p, ss.str().c_str(), ss.str().length());
+	int ret = q->Register(st);
+	
+	evbuffer* evoutput = bufferevent_get_output(bev);
+	ret = q->RecvData(evoutput);
 }
 
 void WriteCB(struct bufferevent *bev, void *ctx)
