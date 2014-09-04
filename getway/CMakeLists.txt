@@ -7,8 +7,8 @@ add_definitions(-Wall
 -std=c++11
 -Wno-unused)
 add_executable(${BIN} ${SRC})
-target_link_libraries(${BIN} -static -levent)
-target_link_libraries(${BIN} -static -levent_core)
-target_link_libraries(${BIN} -static -levent_extra)
-target_link_libraries(${BIN} -static -lzmq)
+target_link_libraries(${BIN} -levent)
+target_link_libraries(${BIN} -levent_core)
+target_link_libraries(${BIN} -levent_extra)
+target_link_libraries(${BIN} -lzmq)
 target_link_libraries(${BIN} -lpthread)

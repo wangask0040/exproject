@@ -7,5 +7,5 @@ add_definitions(-Wall
 -std=c++11
 -Wno-unused)
 add_executable(${BIN} ${SRC})
-target_link_libraries(${BIN} -static -lzmq)
+target_link_libraries(${BIN} -lzmq)
 target_link_libraries(${BIN} -lpthread)
