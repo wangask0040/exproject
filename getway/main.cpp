@@ -1,5 +1,6 @@
 #include <event.h>
 #include <event2/listener.h>
+#include <evutil.h>
 #include <sstream>
 #include <iostream>
 using namespace std;
@@ -59,6 +60,9 @@ void AcceptCB(struct evconnlistener * p, evutil_socket_t fd, struct sockaddr * a
 	bufferevent* bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
 	bufferevent_setcb(bev, ReadCB, WriteCB, EventCB, data);
 	bufferevent_enable(bev, EV_WRITE | EV_READ);
+	char bufaddr[128] = { 0 };
+	evutil_inet_ntop(addr->sa_family, addr, bufaddr, sizeof(bufaddr));
+	cout << "accept connection socket id = " << fd << "ipaddress =" << bufaddr << endl;
 }
 
 void ReadCB(struct bufferevent *bev, void *ctx)
@@ -85,14 +89,12 @@ void WriteCB(struct bufferevent *bev, void *ctx)
 {
 	bev;
 	ctx;
-	evbuffer* p = bufferevent_get_output(bev);
-	cout << __FUNCTION__  << "|buflen:" << evbuffer_get_length(p) << endl;
+	cout << "into WriteCB" << endl;
 }
 
 void EventCB(struct bufferevent *bev, short what, void *ctx)
 {
 	bev;
 	ctx;
-	cout << __FUNCTION__ << '|' << __LINE__ << "|what:" << what << endl;
-	bufferevent_free(bev);
+	cout << "into EventCB what = " << what << endl;
 }

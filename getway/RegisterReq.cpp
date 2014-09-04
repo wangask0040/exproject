@@ -22,6 +22,7 @@ CRegisterReq::~CRegisterReq()
 
 int CRegisterReq::Register(const REGISTER_REQ& req) const
 {
+	cout << "into Register account = " << req.account << " passwd =" << req.passwd << endl;
 	pbregister::MsgRegisterReq pbreq;
 	pbreq.set_account(req.account);
 	pbreq.set_passwd(req.passwd);
@@ -37,6 +38,7 @@ int CRegisterReq::Register(const REGISTER_REQ& req) const
 
 void CRegisterReq::ThreadFun(void* arg)
 {
+	arg;
 }
 
 int CRegisterReq::RecvData(evbuffer* output) const
@@ -47,8 +49,8 @@ int CRegisterReq::RecvData(evbuffer* output) const
 
 	pbregister::MsgRegisterRsp rsp;
 	rsp.ParseFromArray(zmq_msg_data(&zmsg), zmq_msg_size(&zmsg));
-	cout << "result:" << rsp.result() << "|";
-	cout << "msg:" << rsp.msg() << endl;
+
+	cout << "into RecvData result=" << rsp.result() << " msg=" << rsp.msg() << endl;
 
 	zmq_msg_close(&zmsg);
 	string str = "register success\n";

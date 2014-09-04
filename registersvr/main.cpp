@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
 		pbregister::MsgRegisterReq req;
 		req.ParseFromArray(zmq_msg_data(&zmsg), zmq_msg_size(&zmsg));
-		cout << __FUNCTION__ << "|accout:" << req.account() << "|passwd:" << req.passwd() << endl;
+		cout  << "account:" << req.account() << "|passwd:" << req.passwd() << endl;
 		zmq_msg_close(&zmsg);
 
 		pbregister::MsgRegisterRsp rsp;
