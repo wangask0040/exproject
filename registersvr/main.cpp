@@ -3,6 +3,8 @@
 #include <sstream>
 using namespace std;
 
+#include "register.pb.h"
+
 int main(int argc, char** argv)
 {
 	void* ctx = zmq_ctx_new();
@@ -10,12 +12,27 @@ int main(int argc, char** argv)
 	int ret = zmq_bind(response, "tcp://127.0.0.1:5001");
 	while (true)
 	{
-		char tmp[1024] = { 0 };
-		int len = zmq_recv(response, tmp, sizeof(tmp), 0);
-		cout << tmp << endl;
-		stringstream ss;
-		ss << "register" << '|' << len;
-		zmq_send(response, ss.str().c_str(), ss.str().size(), 0);
+		int len = 0;
+		ret = zmq_recv(response, &len, sizeof(len), 0);
+		cout << "ret:" << ret << "|len" << len << endl;
+		if (ret > 0)
+		{
+			char* buf = new char[len];
+			zmq_recv(response, buf, len, 0);
+			pbregister::MsgRegisterReq req;
+			req.ParseFromArray(buf, len);
+
+			cout << req.account() << '|' << req.passwd() << endl;
+
+			pbregister::MsgRegisterRsp rsp;
+			rsp.set_msg("hello");
+			rsp.set_result(-2); 
+			string data;
+			len = rsp.SerializePartialToString(&data);
+			zmq_send(response, &len, sizeof(len), 0);
+			zmq_send(response, data.c_str(), data.size(), 0);
+			delete buf;
+		}
 	}
 	return 1;
 }

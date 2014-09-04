@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+#include "register.pb.h"
 
 CRegisterReq::CRegisterReq()
 {
@@ -18,16 +19,31 @@ CRegisterReq::~CRegisterReq()
 
 std::pair<int, string> CRegisterReq::Register(const REGISTER_REQ& req) const
 {
-	req;
 	int ret = zmq_connect(m_zmq_req, "tcp://127.0.0.1:5001");
-	string str = "zxcz123asd";
 	cout << ret << '|';
-	ret = zmq_send(m_zmq_req, str.c_str(), str.size(), 0);
-	char tmp[1024] = { 0 };
-	cout << ret << '|';
-	ret = zmq_recv(m_zmq_req, tmp, sizeof(tmp), 0);
-	cout << ret << endl;
-	return std::pair<int, string>(ret, string(tmp));
+	pbregister::MsgRegisterReq pbreq;
+	pbreq.set_account(req.account);
+	pbreq.set_passwd(req.passwd);
+
+	string data;
+	int len = pbreq.SerializeToString(&data);
+	ret = zmq_send(m_zmq_req, &len, sizeof(len), 0);
+	cout <<"len:" << ret << '|';
+	ret = zmq_send(m_zmq_req, data.c_str(), data.size(), 0);
+	cout <<"bodylen:" << ret;
+
+	zmq_recv(m_zmq_req, &len, sizeof(len), 0);
+	if (len > 0)
+	{
+		char* tmp = new char[len];
+		zmq_recv(m_zmq_req, tmp, len, 0);
+		pbregister::MsgRegisterRsp rsp;
+		rsp.ParseFromArray(tmp, len);
+		cout << rsp.result() << '|' << rsp.msg() << endl;
+		delete[] tmp;
+	}
+
+	return std::pair<int, string>(ret, string("raeqwe"));
 }
 
 

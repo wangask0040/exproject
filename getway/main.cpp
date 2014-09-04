@@ -6,6 +6,7 @@ using namespace std;
 #include <signal.h>
 #include "RegisterReq.h"
 
+
 void AcceptCB(struct evconnlistener * p, evutil_socket_t fd, struct sockaddr * addr, int socklen, void * data);
 void ReadCB(struct bufferevent *bev, void *ctx);
 void WriteCB(struct bufferevent *bev, void *ctx);
@@ -62,7 +63,6 @@ void ReadCB(struct bufferevent *bev, void *ctx)
 		char tmp[1024] = {0};
 		bufferevent_read_buffer(bev, evb);
 		evbuffer_remove(evb, tmp, sizeof(tmp));
-		cout << __FUNCTION__ << '|' << __LINE__ << '|' << tmp << endl;
 
 		static CRegisterReq req;
 		CRegisterReq::REGISTER_REQ st;

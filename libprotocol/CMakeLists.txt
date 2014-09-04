@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project(protocol)
+set(LIB protocol)
+execute_process(COMMAND protoc --proto_path=./ ./common.proto --cpp_out=./)
+execute_process(COMMAND protoc --proto_path=./ ./register.proto --cpp_out=./)
+aux_source_directory(. SRC)
+add_library(${LIB} ${SRC})

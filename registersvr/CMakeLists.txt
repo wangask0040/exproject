@@ -9,3 +9,5 @@ add_definitions(-Wall
 add_executable(${BIN} ${SRC})
 target_link_libraries(${BIN} -lzmq)
 target_link_libraries(${BIN} -lpthread)
+target_link_libraries(${BIN} -lprotobuf)
+target_link_libraries(${BIN} -lprotocol)

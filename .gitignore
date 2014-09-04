@@ -8,3 +8,5 @@ win32/ipch/
 win32/getway.opensdf
 registersvr/Debug/vc120.idb
 registersvr/Debug/
+libprotocol/Debug/
+libprotocol/ReadMe.txt

@@ -1,0 +1,13 @@
+package pbregister;
+
+message MsgRegisterReq
+{
+	required string account = 1;
+	required string passwd = 2;
+}
+
+message MsgRegisterRsp
+{
+	required int32 result = 1;
+	required string msg = 2;
+}

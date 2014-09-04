@@ -19,14 +19,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="common.proto" />
+    <None Include="register.proto" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.pb.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="register.pb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.pb.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="register.pb.cc">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
