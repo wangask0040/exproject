@@ -20,7 +20,6 @@ CRegisterReq::~CRegisterReq()
 std::pair<int, string> CRegisterReq::Register(const REGISTER_REQ& req) const
 {
 	int ret = zmq_connect(m_zmq_req, "tcp://127.0.0.1:5001");
-	cout << ret << '|';
 	pbregister::MsgRegisterReq pbreq;
 	pbreq.set_account(req.account);
 	pbreq.set_passwd(req.passwd);
@@ -33,9 +32,8 @@ std::pair<int, string> CRegisterReq::Register(const REGISTER_REQ& req) const
 	int len = zmq_recv(m_zmq_req, tmp, sizeof(tmp), 0);
 	pbregister::MsgRegisterRsp rsp;
 	rsp.ParseFromArray(tmp, len);
-	cout << rsp.result() << '|' << rsp.msg() << endl;
 
-	return std::pair<int, string>(ret, string("raeqwe"));
+	return std::pair<int, string>(ret, string("Register return msg"));
 }
 
 

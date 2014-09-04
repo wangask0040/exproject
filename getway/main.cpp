@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 	evutil_parse_sockaddr_port("127.0.0.1:5000", &addr, &len);
 	evconnlistener*  listener =
 		evconnlistener_new_bind(base, AcceptCB, nullptr, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
-	
+
 	struct event *signal_event;
 	signal_event = evsignal_new(base, SIGINT, nullptr, (void *)base);
 	if (!signal_event || event_add(signal_event, NULL) < 0) {
@@ -55,26 +55,28 @@ void AcceptCB(struct evconnlistener * p, evutil_socket_t fd, struct sockaddr * a
 
 void ReadCB(struct bufferevent *bev, void *ctx)
 {
+	cout << __FUNCTION__ << endl;
 	ctx;
-	evbuffer* evb =bufferevent_get_input(bev);
-	size_t len = evbuffer_get_length(evb);
-	if (len > 6)
-	{
-		char tmp[1024] = {0};
-		bufferevent_read_buffer(bev, evb);
-		evbuffer_remove(evb, tmp, sizeof(tmp));
+	evbuffer* evb = bufferevent_get_input(bev);
 
-		static CRegisterReq req;
-		CRegisterReq::REGISTER_REQ st;
-		st.account = tmp;
-		st.passwd = "123456";
-		std::pair<int, string> retpair = req.Register(st);
+	char tmp[1024] = { 0 };
+	bufferevent_read_buffer(bev, evb);
+	evbuffer_remove(evb, tmp, sizeof(tmp));
 
-		evbuffer* p = bufferevent_get_output(bev);
-		stringstream ss;
-		ss << "asdadxzc" << '|' << len << '|' << retpair.first << '|' << retpair.second << endl;
-		evbuffer_add(p, ss.str().c_str(), ss.str().length());
-	}
+	static CRegisterReq req;
+	CRegisterReq::REGISTER_REQ st;
+	st.account = tmp;
+	st.passwd = "123456";
+	
+	std::pair<int, string> retpair = req.Register(st);
+	evbuffer* p = bufferevent_get_output(bev);
+	stringstream ss;
+	ss << "account:" << st.account;
+	ss << "passwd:" << st.passwd;
+	ss << "ret:" << retpair.first;
+	ss << "retmsg:" << retpair.second << endl;
+
+	evbuffer_add(p, ss.str().c_str(), ss.str().length());
 }
 
 void WriteCB(struct bufferevent *bev, void *ctx)
@@ -82,13 +84,13 @@ void WriteCB(struct bufferevent *bev, void *ctx)
 	bev;
 	ctx;
 	evbuffer* p = bufferevent_get_output(bev);
-	cout << __FUNCTION__ << '|' << __LINE__ << '|' << evbuffer_get_length(p) << endl;
+	cout << __FUNCTION__  << "|buflen:" << evbuffer_get_length(p) << endl;
 }
 
 void EventCB(struct bufferevent *bev, short what, void *ctx)
 {
 	bev;
 	ctx;
-	cout << __FUNCTION__ << '|' << __LINE__ << '|' << what << endl;
+	cout << __FUNCTION__ << '|' << __LINE__ << "|what:" << what << endl;
 	bufferevent_free(bev);
 }

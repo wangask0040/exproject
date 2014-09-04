@@ -17,10 +17,8 @@ int main(int argc, char** argv)
 		pbregister::MsgRegisterReq req;
 		req.ParseFromArray(buf, len);
 
-		cout << req.account() << '|' << req.passwd() << endl;
-
 		pbregister::MsgRegisterRsp rsp;
-		rsp.set_msg("hello");
+		rsp.set_msg("register return");
 		rsp.set_result(-2); 
 		string data;
 		rsp.SerializeToString(&data);
