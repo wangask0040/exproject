@@ -8,7 +8,6 @@ int main(int argc, char** argv)
 	void* ctx = zmq_ctx_new();
 	void* response = zmq_socket(ctx, ZMQ_REP);
 	int ret = zmq_bind(response, "tcp://127.0.0.1:5001");
-	cout << ret << endl;
 	while (true)
 	{
 		char tmp[1024] = { 0 };

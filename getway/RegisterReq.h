@@ -19,5 +19,6 @@ public:
 
 private:
 	void* m_zmq_ctx;
+	void* m_zmq_req;
 };
 
