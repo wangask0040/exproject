@@ -1,0 +1,12 @@
+package pbcommon;
+
+message MsgHead
+{
+	required int32 type = 1;
+	required int32 bodylen = 2;
+}
+
+message MsgBody
+{
+	required string body = 1;
+}

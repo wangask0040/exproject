@@ -15,7 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="common.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.pb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="common.pb.cc">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

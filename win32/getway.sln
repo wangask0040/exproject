@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "extern", "..\extern\extern.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "registersvr", "..\registersvr\registersvr.vcxproj", "{3D4D9F5F-250C-47C6-93B4-0185F964F09E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libprotocol", "..\libprotocol\libprotocol.vcxproj", "{F04950DD-C301-4885-869B-D44C5DD993BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Debug|Win32.Build.0 = Debug|Win32
 		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Release|Win32.ActiveCfg = Release|Win32
 		{3D4D9F5F-250C-47C6-93B4-0185F964F09E}.Release|Win32.Build.0 = Release|Win32
+		{F04950DD-C301-4885-869B-D44C5DD993BC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F04950DD-C301-4885-869B-D44C5DD993BC}.Debug|Win32.Build.0 = Debug|Win32
+		{F04950DD-C301-4885-869B-D44C5DD993BC}.Release|Win32.ActiveCfg = Release|Win32
+		{F04950DD-C301-4885-869B-D44C5DD993BC}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
