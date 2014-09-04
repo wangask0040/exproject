@@ -26,22 +26,14 @@ std::pair<int, string> CRegisterReq::Register(const REGISTER_REQ& req) const
 	pbreq.set_passwd(req.passwd);
 
 	string data;
-	int len = pbreq.SerializeToString(&data);
-	ret = zmq_send(m_zmq_req, &len, sizeof(len), 0);
-	cout <<"len:" << ret << '|';
-	ret = zmq_send(m_zmq_req, data.c_str(), data.size(), 0);
-	cout <<"bodylen:" << ret;
+	pbreq.SerializeToString(&data);
+	zmq_send(m_zmq_req, data.c_str(), data.size(), 0);
 
-	zmq_recv(m_zmq_req, &len, sizeof(len), 0);
-	if (len > 0)
-	{
-		char* tmp = new char[len];
-		zmq_recv(m_zmq_req, tmp, len, 0);
-		pbregister::MsgRegisterRsp rsp;
-		rsp.ParseFromArray(tmp, len);
-		cout << rsp.result() << '|' << rsp.msg() << endl;
-		delete[] tmp;
-	}
+	char tmp[1024] = { 0 };
+	int len = zmq_recv(m_zmq_req, tmp, sizeof(tmp), 0);
+	pbregister::MsgRegisterRsp rsp;
+	rsp.ParseFromArray(tmp, len);
+	cout << rsp.result() << '|' << rsp.msg() << endl;
 
 	return std::pair<int, string>(ret, string("raeqwe"));
 }

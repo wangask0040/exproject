@@ -53,7 +53,8 @@ void protobuf_AssignDesc_common_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(MsgHead));
   MsgBody_descriptor_ = file->message_type(1);
-  static const int MsgBody_offsets_[1] = {
+  static const int MsgBody_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBody, bodylen_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBody, body_),
   };
   MsgBody_reflection_ =
@@ -102,8 +103,8 @@ void protobuf_AddDesc_common_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\014common.proto\022\010pbcommon\"(\n\007MsgHead\022\014\n\004t"
-    "ype\030\001 \002(\005\022\017\n\007bodylen\030\002 \002(\005\"\027\n\007MsgBody\022\014\n"
-    "\004body\030\001 \002(\t", 91);
+    "ype\030\001 \002(\005\022\017\n\007bodylen\030\002 \002(\005\"(\n\007MsgBody\022\017\n"
+    "\007bodylen\030\001 \002(\005\022\014\n\004body\030\002 \002(\t", 108);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "common.proto", &protobuf_RegisterTypes);
   MsgHead::default_instance_ = new MsgHead();
@@ -372,6 +373,7 @@ void MsgHead::Swap(MsgHead* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int MsgBody::kBodylenFieldNumber;
 const int MsgBody::kBodyFieldNumber;
 #endif  // !_MSC_VER
 
@@ -391,6 +393,7 @@ MsgBody::MsgBody(const MsgBody& from)
 
 void MsgBody::SharedCtor() {
   _cached_size_ = 0;
+  bodylen_ = 0;
   body_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -430,6 +433,7 @@ MsgBody* MsgBody::New() const {
 
 void MsgBody::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    bodylen_ = 0;
     if (has_body()) {
       if (body_ != &::google::protobuf::internal::kEmptyString) {
         body_->clear();
@@ -446,10 +450,26 @@ bool MsgBody::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required string body = 1;
+      // required int32 bodylen = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &bodylen_)));
+          set_has_bodylen();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_body;
+        break;
+      }
+
+      // required string body = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_body:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_body()));
           ::google::protobuf::internal::WireFormat::VerifyUTF8String(
@@ -480,13 +500,18 @@ bool MsgBody::MergePartialFromCodedStream(
 
 void MsgBody::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required string body = 1;
+  // required int32 bodylen = 1;
+  if (has_bodylen()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->bodylen(), output);
+  }
+
+  // required string body = 2;
   if (has_body()) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8String(
       this->body().data(), this->body().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE);
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      1, this->body(), output);
+      2, this->body(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -497,14 +522,19 @@ void MsgBody::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* MsgBody::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required string body = 1;
+  // required int32 bodylen = 1;
+  if (has_bodylen()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->bodylen(), target);
+  }
+
+  // required string body = 2;
   if (has_body()) {
     ::google::protobuf::internal::WireFormat::VerifyUTF8String(
       this->body().data(), this->body().length(),
       ::google::protobuf::internal::WireFormat::SERIALIZE);
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->body(), target);
+        2, this->body(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -518,7 +548,14 @@ int MsgBody::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required string body = 1;
+    // required int32 bodylen = 1;
+    if (has_bodylen()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->bodylen());
+    }
+
+    // required string body = 2;
     if (has_body()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
@@ -552,6 +589,9 @@ void MsgBody::MergeFrom(const ::google::protobuf::Message& from) {
 void MsgBody::MergeFrom(const MsgBody& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_bodylen()) {
+      set_bodylen(from.bodylen());
+    }
     if (from.has_body()) {
       set_body(from.body());
     }
@@ -572,13 +612,14 @@ void MsgBody::CopyFrom(const MsgBody& from) {
 }
 
 bool MsgBody::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
 
 void MsgBody::Swap(MsgBody* other) {
   if (other != this) {
+    std::swap(bodylen_, other->bodylen_);
     std::swap(body_, other->body_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);

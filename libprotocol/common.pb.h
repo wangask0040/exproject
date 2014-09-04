@@ -184,10 +184,17 @@ class MsgBody : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required string body = 1;
+  // required int32 bodylen = 1;
+  inline bool has_bodylen() const;
+  inline void clear_bodylen();
+  static const int kBodylenFieldNumber = 1;
+  inline ::google::protobuf::int32 bodylen() const;
+  inline void set_bodylen(::google::protobuf::int32 value);
+
+  // required string body = 2;
   inline bool has_body() const;
   inline void clear_body();
-  static const int kBodyFieldNumber = 1;
+  static const int kBodyFieldNumber = 2;
   inline const ::std::string& body() const;
   inline void set_body(const ::std::string& value);
   inline void set_body(const char* value);
@@ -198,15 +205,18 @@ class MsgBody : public ::google::protobuf::Message {
 
   // @@protoc_insertion_point(class_scope:pbcommon.MsgBody)
  private:
+  inline void set_has_bodylen();
+  inline void clear_has_bodylen();
   inline void set_has_body();
   inline void clear_has_body();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::std::string* body_;
+  ::google::protobuf::int32 bodylen_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   friend void  protobuf_AddDesc_common_2eproto();
   friend void protobuf_AssignDesc_common_2eproto();
@@ -270,15 +280,37 @@ inline void MsgHead::set_bodylen(::google::protobuf::int32 value) {
 
 // MsgBody
 
-// required string body = 1;
-inline bool MsgBody::has_body() const {
+// required int32 bodylen = 1;
+inline bool MsgBody::has_bodylen() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void MsgBody::set_has_body() {
+inline void MsgBody::set_has_bodylen() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void MsgBody::clear_has_body() {
+inline void MsgBody::clear_has_bodylen() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void MsgBody::clear_bodylen() {
+  bodylen_ = 0;
+  clear_has_bodylen();
+}
+inline ::google::protobuf::int32 MsgBody::bodylen() const {
+  return bodylen_;
+}
+inline void MsgBody::set_bodylen(::google::protobuf::int32 value) {
+  set_has_bodylen();
+  bodylen_ = value;
+}
+
+// required string body = 2;
+inline bool MsgBody::has_body() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void MsgBody::set_has_body() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void MsgBody::clear_has_body() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void MsgBody::clear_body() {
   if (body_ != &::google::protobuf::internal::kEmptyString) {

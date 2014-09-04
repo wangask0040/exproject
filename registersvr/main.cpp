@@ -12,28 +12,21 @@ int main(int argc, char** argv)
 	int ret = zmq_bind(response, "tcp://127.0.0.1:5001");
 	while (true)
 	{
-		int len = 0;
-		ret = zmq_recv(response, &len, sizeof(len), 0);
-		cout << "ret:" << ret << "|len" << len << endl;
-		if (ret > 0)
-		{
-			char* buf = new char[len];
-			zmq_recv(response, buf, len, 0);
-			pbregister::MsgRegisterReq req;
-			req.ParseFromArray(buf, len);
+		char buf[1024] = { 0 };
+		int len = zmq_recv(response, buf, sizeof(buf), 0);
+		pbregister::MsgRegisterReq req;
+		req.ParseFromArray(buf, len);
 
-			cout << req.account() << '|' << req.passwd() << endl;
+		cout << req.account() << '|' << req.passwd() << endl;
 
-			pbregister::MsgRegisterRsp rsp;
-			rsp.set_msg("hello");
-			rsp.set_result(-2); 
-			string data;
-			len = rsp.SerializePartialToString(&data);
-			zmq_send(response, &len, sizeof(len), 0);
-			zmq_send(response, data.c_str(), data.size(), 0);
-			delete buf;
-		}
+		pbregister::MsgRegisterRsp rsp;
+		rsp.set_msg("hello");
+		rsp.set_result(-2); 
+		string data;
+		rsp.SerializeToString(&data);
+		zmq_send(response, data.c_str(), data.size(), 0);
 	}
+
 	return 1;
 }
 

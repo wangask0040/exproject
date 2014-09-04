@@ -8,5 +8,6 @@ message MsgHead
 
 message MsgBody
 {
-	required string body = 1;
+	required int32 bodylen = 1;
+	required string body = 2;
 }
