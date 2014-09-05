@@ -3,7 +3,7 @@
 #include <sstream>
 using namespace std;
 
-#include "register.pb.h"
+#include "libprotocol/register.pb.h"
 
 int main(int argc, char** argv)
 {

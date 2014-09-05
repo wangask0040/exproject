@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "RegisterReq.h"
-#include "register.pb.h"
+#include "libprotocol/register.pb.h"
 
 
 CRegisterReq::CRegisterReq()

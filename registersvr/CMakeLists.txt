@@ -2,12 +2,19 @@ cmake_minimum_required(VERSION 2.8)
 project(registersvr)
 set(BIN registersvr)
 aux_source_directory(. SRC)
-add_definitions(-Wall 
--Werror 
--std=c++11
--Wno-unused)
+
+if(MSVC)
+file(GLOB HFILES "*.h")
+link_directories(${ROOTDIR}/exlib/lib)
+add_executable(${BIN} ${SRC} ${HFILES})
+target_link_libraries(${BIN} libzmq.lib)
+target_link_libraries(${BIN} libprotobuf.lib)
+target_link_libraries(${BIN} protocol.lib)
+else(MSVC)
 add_executable(${BIN} ${SRC})
 target_link_libraries(${BIN} -lzmq)
 target_link_libraries(${BIN} -lpthread)
 target_link_libraries(${BIN} -lprotobuf)
 target_link_libraries(${BIN} -lprotocol)
+add_definitions(-Wall -Werror -std=c++11 -Wno-unused)
+endif(MSVC)
