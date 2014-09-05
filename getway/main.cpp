@@ -33,13 +33,6 @@ int main(int argc, char** argv)
 	evconnlistener*  listener =
 		evconnlistener_new_bind(base, AcceptCB, &rr, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
 
-	struct event *signal_event;
-	signal_event = evsignal_new(base, SIGINT, nullptr, (void *)base);
-	if (!signal_event || event_add(signal_event, NULL) < 0) {
-		fprintf(stderr, "Could not create/add a signal event!\n");
-		return 1;
-	}
-
 	event_base_dispatch(base);
 
 	evconnlistener_free(listener);
