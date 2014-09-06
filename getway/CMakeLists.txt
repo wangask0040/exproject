@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 project(getway)
 set(BIN getway)
 aux_source_directory(. SRC)
