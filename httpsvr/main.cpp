@@ -1,6 +1,10 @@
 #include <evhttp.h>
 #include <iostream>
 using namespace std;
+
+#include "libprotocol/http.pb.h"
+
+
 void http_route(evhttp* http);
 void request_cb_test(struct evhttp_request *req, void *arg);
 const char* translation_cmdtype(const evhttp_request* req);
@@ -19,7 +23,7 @@ int main(int argc, char** argv)
 	http_route(http);
 
 	evhttp_bound_socket* handle;
-	handle = evhttp_bind_socket_with_handle(http, "192.168.1.105", 8001);
+	handle = evhttp_bind_socket_with_handle(http, argv[1], strtoul(argv[2], nullptr, 0));
 
 	event_base_dispatch(base);
 
@@ -41,6 +45,19 @@ void http_route(evhttp* http)
 void request_cb_test(struct evhttp_request *req, void *arg)
 {
 	cout << translation_cmdtype(req) << endl;
+
+	if (evhttp_request_get_command(req) == EVHTTP_REQ_POST)
+	{
+		if (req->body_size > 0)
+		{
+			size_t inputlen = evbuffer_get_length(req->input_buffer);
+			char tmp[1024];
+			evbuffer_copyout(req->input_buffer, tmp, req->body_size);
+			http::MsgHttpReq msg;
+			msg.ParseFromArray(tmp, req->body_size);
+		}
+	}
+
 	evbuffer* output = evbuffer_new();
 	char ar[100] = "zczxczxczxc\r\n";
 	evbuffer_add(output, ar, sizeof(ar));

@@ -4,6 +4,8 @@ set(LIB protocol)
 set(CURDIR ${ROOTDIR}/libprotocol)
 execute_process(COMMAND protoc --proto_path=${CURDIR} ${CURDIR}/common.proto --cpp_out=${CURDIR})
 execute_process(COMMAND protoc --proto_path=${CURDIR} ${CURDIR}/register.proto --cpp_out=${CURDIR})
+execute_process(COMMAND protoc --proto_path=${CURDIR} ${CURDIR}/http.proto --cpp_out=${CURDIR})
+execute_process(COMMAND protoc --proto_path=${CURDIR} ${CURDIR}/http.proto --python_out=${CURDIR})
 aux_source_directory(. SRC)
 
 if(MSVC)
