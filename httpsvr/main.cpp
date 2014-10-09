@@ -90,3 +90,18 @@ void send_document_cb(struct evhttp_request *req, void *arg)
 	evhttp_send_reply(req, 200, "OK", output);
 	evbuffer_free(output);
 }
+
+void GetUrlParamValue(evhttp_request* req, const char* param_name, std::string& param_value)
+{
+	const char* url = evhttp_request_get_uri(req);
+	if (url != nullptr)
+	{
+		evkeyvalq* http_query = nullptr;
+		if (evhttp_parse_query_str(url, http_query) == 0)
+		{
+			const char* tmp = evhttp_find_header(http_query, param_name);
+			param_value = tmp;
+			evhttp_clear_headers(http_query);
+		}
+	}
+}
